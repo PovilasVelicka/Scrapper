@@ -1,9 +1,7 @@
 from time import sleep
-
 from interfaces.logger import ILogger
 from interfaces.repository import IDataAccessRepository
 from interfaces.web_scrapper import IWebScrapper
-
 from accessdata.jsonl_repository import JsonlRepository
 from accessdata.sql_repository import SqlRepository
 from accessdata.xlsx_repository import ExcelRepository
