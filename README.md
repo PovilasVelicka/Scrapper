@@ -12,17 +12,16 @@ It supports multiple storage formats and can resume scraping if interrupted.
   - SQLite (`.db`)
   - Excel (`.xlsx`)
   - JSONL (`.jsonl`)
-- ✅ Automatically resumes from the last successfully scraped page if interrupted
+- ✅ Automatically resumes from the last successfully scraped item if interrupted
 - ✅ Configurable delay between HTTP requests
 
 ## 🪵 Logging
 
-Logging behavior is controlled by the `log_level` setting in `appsettings.json`. Example:
+Logging behavior is controlled by the `LogLevel` setting in `config.json`. Example:
 
 ```json
 "Logging": {
-    "LogLevel": "DEBUG",
-    "LogsDir": ".\\Logs\\"
+    "LogLevel": "DEBUG"
   }
 
 ---

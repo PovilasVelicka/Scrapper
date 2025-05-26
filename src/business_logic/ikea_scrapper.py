@@ -1,7 +1,7 @@
 from typing import Generator, Optional
 
-from interfaces.logger import ILogger
-from interfaces.web_scrapper import IWebScrapper
+from src.interfaces.logger import ILogger
+from src.interfaces.web_scrapper import IWebScrapper
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse

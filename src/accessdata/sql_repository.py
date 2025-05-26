@@ -1,4 +1,4 @@
-from interfaces import repository as repo
+from src.interfaces import repository as repo
 import sqlite3
 from typing import Optional
 

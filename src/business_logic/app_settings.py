@@ -32,10 +32,6 @@ class AppSettings:
 
 
     @property
-    def logs_dir(self) -> str:
-        return self.settings.get('Logging', {}).get('LogsDir', 'Logs')
-
-    @property
     def scrape_url(self) -> str:
         return self.settings.get('Scrapping', {}).get('Url', '')
 

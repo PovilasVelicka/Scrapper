@@ -1,13 +1,12 @@
 {
   "Logging": {
-    "LogLevel": "DEBUG",
-    "LogsDir": ".\\Logs\\"
+    "LogLevel": "DEBUG"
   },
   "DataBase": {
-    "FilePath": ".\\DB\\ikea_products.jsonl"
+    "FilePath": ".\\db\\lovos-ir-sofos-lovos.jsonl"
   },
   "Scrapping":{
-    "Url": "https://www.ikea.lt/lt/products/virtuve/virtuves-sistema-metod",
+    "Url": "https://www.ikea.lt/lt/products/miegamasis/lovos-ir-sofos-lovos",
     "Interval": 2
   }
 }

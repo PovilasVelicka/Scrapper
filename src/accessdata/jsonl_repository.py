@@ -1,7 +1,7 @@
 import json
 from typing import Optional
-from services.log_service import ILogger
-from interfaces import repository as repo
+from src.services.log_service import ILogger
+from src.interfaces import repository as repo
 import os
 
 class JsonlRepository(repo.IDataAccessRepository):
@@ -70,7 +70,10 @@ class JsonlRepository(repo.IDataAccessRepository):
         os.replace(temp_file, self.__db_path)
 
         # Return the updated item for verification
-        return self.get_first_or_default(id_keys)
+        updated_item = self.get_first_or_default(id_keys)
+        if not updated_item:
+            raise ValueError('Unable to update item.')
+        return updated_item
 
 
     @staticmethod
