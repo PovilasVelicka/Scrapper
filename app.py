@@ -1,30 +1,23 @@
 from time import sleep
-from interfaces.logger import ILogger
-from interfaces.repository import IDataAccessRepository
-from interfaces.web_scrapper import IWebScrapper
-from accessdata.jsonl_repository import JsonlRepository
-from accessdata.sql_repository import SqlRepository
-from accessdata.xlsx_repository import ExcelRepository
-from business_logic.app_settings import AppSettings
-from business_logic.ikea_scrapper import IkeaScrapper
-from services.log_service import ConsolLoger, FileLogger
+from src.interfaces.logger import ILogger
+from src.interfaces.repository import IDataAccessRepository
+from src.interfaces.web_scrapper import IWebScrapper
+from src.accessdata.jsonl_repository import JsonlRepository
+from src.accessdata.sql_repository import SqlRepository
+from src.accessdata.xlsx_repository import ExcelRepository
+from src.business_logic.app_settings import AppSettings
+from src.business_logic.ikea_scrapper import IkeaScrapper
+from src.services.log_service import Logger
 
 
 def main():
-    scrapper: IWebScrapper
-    logger: ILogger
-    repository: IDataAccessRepository
-
     settings = AppSettings("config.json")
-
-    if settings.log_level == "DEBUG":
-        logger = ConsolLoger(settings.log_level)
-    else:
-        logger = FileLogger(settings.logs_dir, settings.log_level)
-
+    scrapper: IWebScrapper
+    logger: ILogger = Logger("main_app", settings.log_level)
+    repository: IDataAccessRepository
     ext = settings.db_path.split(".")[-1].lower()
     if ext == "jsonl":
-        repository = JsonlRepository(settings.db_path, logger)
+        repository = JsonlRepository(settings.db_path, Logger("JsonlRepository",settings.log_level))
     elif ext == "xlsx":
         repository = ExcelRepository(settings.db_path)
     elif ext == "db":
@@ -34,7 +27,7 @@ def main():
         logger.log_error(msg)
         raise ValueError(msg)
 
-    scrapper = IkeaScrapper(settings.scrape_url, logger)
+    scrapper = IkeaScrapper(settings.scrape_url, Logger("IkeaScrapper", settings.log_level))
     complete = False
     while not complete:
         try:
