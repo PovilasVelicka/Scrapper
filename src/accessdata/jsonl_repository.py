@@ -11,12 +11,14 @@ class JsonlRepository(repo.IDataAccessRepository):
             os.makedirs(directory)
         self.__db_path = db_path
         self.__logger = logger
+        self.__logger.log_debug(f"Repository init successfully")
 
 
     def insert(self,  item: dict) -> dict:
         with open(self.__db_path, 'a', encoding='utf-8') as f:
             new_line = json.dumps(item, ensure_ascii=False) + '\n'
             f.write(new_line)
+            self.__logger.log_debug(f"def:insert - New item added into {self.__db_path}")
         return item
 
 
@@ -73,6 +75,7 @@ class JsonlRepository(repo.IDataAccessRepository):
         updated_item = self.get_first_or_default(id_keys)
         if not updated_item:
             raise ValueError('Unable to update item.')
+        self.__logger.log_debug(f"def:update - Item {id_keys} update successfully")
         return updated_item
 
 
