@@ -1,6 +1,6 @@
 {
   "Logging": {
-    "LogLevel": "INFO"
+    "LogLevel": "DEBUG"
   },
   "DataBase": {
     "FilePath": ".\\DB\\ikea_products.jsonl"
