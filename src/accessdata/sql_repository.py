@@ -70,7 +70,7 @@ class SqlRepository(repo.IDataAccessRepository):
                 """, (id_keys["id"], key, value))
         try:
             self.conn.commit()
-            self.__logger.log_error(f"def: update - successfully")
+            self.__logger.log_error(f"def: update - item {id_keys} successfully")
         except Exception as e:
             self.__logger.log_error(f"def: update - error: {e}")
         return new_item
