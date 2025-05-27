@@ -32,8 +32,8 @@ If you're opening this project for the first time and your computer isn't set up
 If you have Git:
 
 ```bash
-git clone https://github.com/your-user/ikea-product-scraper.git
-cd ikea-product-scraper
+git clone https://github.com/PovilasVelicka/Scrapper.git
+cd Scrapper
 ```
 
 Or download the ZIP from GitHub, extract it, and open the folder in your terminal or command prompt.
@@ -77,7 +77,7 @@ Example `config.json`:
     "LogLevel": "DEBUG"
   },
   "DataBase": {
-    "FilePath": ".\\DB\\ikea_products.jsonl"
+    "FilePath": ".\\DB\\virtuves-sistema-metod.jsonl"
   },
   "Scrapping":{
     "Url": "https://www.ikea.lt/lt/products/virtuve/virtuves-sistema-metod",
