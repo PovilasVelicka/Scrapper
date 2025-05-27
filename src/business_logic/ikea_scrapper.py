@@ -105,7 +105,7 @@ class IkeaScrapper(IWebScrapper):
                 "name": a_tag.get_text(strip=True) if a_tag else "",
                 "description": description_tag.get_text(strip=True) if description_tag else "",
                 "price": price_tag.get("data-price") if price_tag else "",
-                "details": {}
+                "details": []
             }
 
             if a_tag:
@@ -123,7 +123,7 @@ class IkeaScrapper(IWebScrapper):
 
     @staticmethod
     def _get_item_details(d_soup: BeautifulSoup) -> list:
-        item_details = {}
+        item_details = []
 
         # Find the product size. PopUp window in web
         modal_size_tag = d_soup.select_one("#modal-product-size")
@@ -143,7 +143,7 @@ class IkeaScrapper(IWebScrapper):
             if len(td) == 2:
                 key = td[0].text.strip().rstrip(":")  # Remove trailing colon
                 value = td[1].text.strip()
-                item_details.update({key: value})
+                item_details.append({key: value})
 
         return item_details
 

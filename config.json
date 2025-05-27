@@ -3,7 +3,7 @@
     "LogLevel": "DEBUG"
   },
   "DataBase": {
-    "FilePath": ".\\DB\\ikea_products.jsonl"
+    "FilePath": ".\\DB\\ikea_products.db"
   },
   "Scrapping":{
     "Url": "https://www.ikea.lt/lt/products/virtuve/virtuves-sistema-metod",
