@@ -4,7 +4,6 @@ import sqlite3
 from typing import Optional
 
 
-
 class SqlRepository(repo.IDataAccessRepository):
     def __init__(self, db_path: str, logger: ILogger):
         self.conn = sqlite3.connect(db_path)
