@@ -1,7 +1,7 @@
 from src.interfaces import repository as repo
 from openpyxl import Workbook, load_workbook
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Any
 
 from src.interfaces.logger import ILogger
 
@@ -37,7 +37,7 @@ class ExcelRepository(repo.IDataAccessRepository):
 
         for row in ws_products.iter_rows(min_row=2, values_only=True):
             if row[0] == id_keys["id"]:
-                product = {
+                product: dict[str, Any] = {
                     "id": row[0],
                     "name": row[1],
                     "description": row[2],
@@ -65,7 +65,7 @@ class ExcelRepository(repo.IDataAccessRepository):
                 break
 
         # Delete old details
-        details_to_keep = []
+        details_to_keep: list[Any] = []
         for row in ws_details.iter_rows(min_row=2):
             if row[0].value != id_keys["id"]:
                 details_to_keep.append([cell.value for cell in row])

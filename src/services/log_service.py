@@ -2,7 +2,7 @@ from src.interfaces.logger import ILogger
 import datetime as dt
 import os
 from enum import IntEnum
-from typing import Self
+from typing import Self, Callable
 
 
 class LogLevel(IntEnum):
@@ -16,6 +16,7 @@ class LogLevel(IntEnum):
 class Logger(ILogger):
     def __init__(self, module_name: str, log_level: LogLevel | str):
         self.__module_name = module_name
+        self._print_log: Callable[[str], None]
         directory = os.path.dirname(".\\logs\\")
         if not os.path.exists(directory):
             os.makedirs(directory)

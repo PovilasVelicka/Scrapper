@@ -80,5 +80,5 @@ class JsonlRepository(repo.IDataAccessRepository):
 
 
     @staticmethod
-    def _is_equals(item: dict, id_keys: dict[str: str | int]) -> bool:
+    def _is_equals(item: dict, id_keys: dict[str, str | int]) -> bool:
         return all([item[k] == v for k, v in id_keys.items()])

@@ -1,4 +1,4 @@
-from typing import Generator, Optional
+from typing import Generator, Optional, Any
 
 from src.interfaces.logger import ILogger
 from src.interfaces.web_scrapper import IWebScrapper
@@ -11,7 +11,7 @@ import os
 
 
 class IkeaScrapper(IWebScrapper):
-    def __init__(self, url:str, logger: ILogger, headers: dict = None, time_delay: int = 2 ):
+    def __init__(self, url:str, logger: ILogger, headers: Optional[dict] = None, time_delay: int = 2 ):
         """
         A web scraper for IKEA product listings.
 
@@ -73,7 +73,11 @@ class IkeaScrapper(IWebScrapper):
         while True:
             req_url = f"{url}?&product-room=product&page={self.__current_page}&order=RECOMMENDED"
             self.__logger.log_info(f"Processing page Nr.: {self.__current_page}, url: {req_url}")
+
             soup = self._get_soup(req_url)
+            if not soup:
+                self.__logger.log_error(f"Can't get page {req_url}")
+                continue
 
             for i in self._get_page_items(soup):
                 self.__logger.log_debug(f"Item {i['id']} complete")
@@ -101,7 +105,7 @@ class IkeaScrapper(IWebScrapper):
             description_tag = items[i].select_one("div.card-body > div.itemInfo.v2-b > h4")
             price_tag = items[i].select_one("div.itemPrice-wrapper p.itemNormalPrice span[data-price]")
 
-            item = {
+            item: dict[str, Any] = {
                 "name": a_tag.get_text(strip=True) if a_tag else "",
                 "description": description_tag.get_text(strip=True) if description_tag else "",
                 "price": price_tag.get("data-price") if price_tag else "",
@@ -110,9 +114,12 @@ class IkeaScrapper(IWebScrapper):
 
             if a_tag:
                 details_link = a_tag.get("href")
-                d_soup = self._get_soup(self.__base_url + details_link)
-                item["details"] = self._get_item_details(d_soup)
-                item["id"] = self._get_item_id(d_soup)
+                d_soup = self._get_soup(self.__base_url + str(details_link))
+                if not d_soup:
+                    self.__logger.log_error(f"Can't get item details page {details_link}")
+                else:
+                    item["details"] = self._get_item_details(d_soup)
+                    item["id"] = self._get_item_id(d_soup)
             else:
                 # Warn if item link is missing — likely means incomplete or malformed HTML
                 self.__logger.log_warning(f"Item has no details {item}")
@@ -123,7 +130,7 @@ class IkeaScrapper(IWebScrapper):
 
     @staticmethod
     def _get_item_details(d_soup: BeautifulSoup) -> list:
-        item_details = []
+        item_details: list[dict[str,str]] = []
 
         # Find the product size. PopUp window in web
         modal_size_tag = d_soup.select_one("#modal-product-size")
