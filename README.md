@@ -104,4 +104,4 @@ Logging behavior is controlled by the `LogLevel` setting in `config.json`. Examp
 }
 ```
 
-Use `"DEBUG"`, `"INFO"`, `"WARNING"`, or `"ERROR"` depending on how detailed you want the logs.
+Use "DEBUG", "INFO", "WARNING", or "ERROR" depending on how detailed you want the logs. If LogLevel is set to "DEBUG", logging will be done in the console. If set to a higher level, logs will be saved to a file in the logs directory, organized by the date of logging.
