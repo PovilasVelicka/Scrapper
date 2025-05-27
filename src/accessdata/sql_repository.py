@@ -1,15 +1,20 @@
+from src.interfaces.logger import ILogger
 from src.interfaces import repository as repo
 import sqlite3
 from typing import Optional
 
 
+
 class SqlRepository(repo.IDataAccessRepository):
-    def __init__(self, db_path):
+    def __init__(self, db_path: str, logger: ILogger):
         self.conn = sqlite3.connect(db_path)
         self._create_tables()
+        self.__logger = logger
+        self.__logger.log_debug(f"Repository init successfully")
 
 
     def _create_tables(self):
+        self.__logger.log_debug(f"def:create_tables - tray to create tables")
         cursor = self.conn.cursor()
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS products (
@@ -27,7 +32,11 @@ class SqlRepository(repo.IDataAccessRepository):
                 FOREIGN KEY(product_id) REFERENCES products(id)
             );
         """)
-        self.conn.commit()
+        try:
+            self.conn.commit()
+            self.__logger.log_debug(f"def:create_tables - Tables crated")
+        except Exception as e:
+            self.__logger.log_error(f"def:create_tables - error: {e}")
 
 
     def get_first_or_default(self, id_keys: dict[str, str | int]) -> Optional[dict]:
@@ -59,24 +68,31 @@ class SqlRepository(repo.IDataAccessRepository):
                     INSERT INTO product_details (product_id, key, value)
                     VALUES (?, ?, ?)
                 """, (id_keys["id"], key, value))
-
-        self.conn.commit()
+        try:
+            self.conn.commit()
+            self.__logger.log_error(f"def: update - successfully")
+        except Exception as e:
+            self.__logger.log_error(f"def: update - error: {e}")
         return new_item
 
 
     def insert(self, item: dict) -> dict:
         cursor = self.conn.cursor()
+        self.__logger.log_debug(f"def:insert - prepare item for update")
         cursor.execute("""
             INSERT INTO products (id, name, description, price)
             VALUES (?, ?, ?, ?)
         """, (item["id"], item["name"], item["description"], item["price"]))
-
+        self.__logger.log_debug(f"def:insert - prepare item details for update")
         for detail in item.get("details", []):
             for key, value in detail.items():
                 cursor.execute("""
                     INSERT INTO product_details (product_id, key, value)
                     VALUES (?, ?, ?)
                 """, (item["id"], key, value))
-
-        self.conn.commit()
+        try:
+            self.conn.commit()
+            self.__logger.log_debug(f"def:insert - item inserted successfully")
+        except Exception as e:
+            self.__logger.log_error(f"def:insert - error: {e}")
         return item

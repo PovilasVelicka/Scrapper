@@ -21,7 +21,7 @@ def main():
     elif ext == "xlsx":
         repository = ExcelRepository(settings.db_path)
     elif ext == "db":
-        repository = SqlRepository(settings.db_path)
+        repository = SqlRepository(settings.db_path, Logger("SqlRepository",settings.log_level))
     else:
         msg = f"Unsupported database file: .{ext}"
         logger.log_error(msg)
