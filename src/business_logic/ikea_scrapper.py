@@ -24,7 +24,7 @@ class IkeaScrapper(IWebScrapper):
         self.__base_url = f"{parsed_url.scheme}://{parsed_url.hostname}"
         self.__rel_path = parsed_url.path
         self.__time_delay = time_delay
-        self.__state_file = "ikea_scraper_state.json"
+        self.__state_file = ".\\src\\business_logic\\ikea_scraper_state.json"
         self.__current_page = 1
         self.__current_item = 0
         if headers:
