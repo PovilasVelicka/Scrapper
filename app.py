@@ -17,11 +17,11 @@ def main():
     repository: IDataAccessRepository
     ext = settings.db_path.split(".")[-1].lower()
     if ext == "jsonl":
-        repository = JsonlRepository(settings.db_path, Logger("JsonlRepository",settings.log_level))
+        repository = JsonlRepository(settings.db_path, Logger("JsonlRepository", settings.log_level))
     elif ext == "xlsx":
-        repository = ExcelRepository(settings.db_path)
+        repository = ExcelRepository(settings.db_path, Logger("ExcelRepository", settings.log_level))
     elif ext == "db":
-        repository = SqlRepository(settings.db_path, Logger("SqlRepository",settings.log_level))
+        repository = SqlRepository(settings.db_path, Logger("SqlRepository", settings.log_level))
     else:
         msg = f"Unsupported database file: .{ext}"
         logger.log_error(msg)

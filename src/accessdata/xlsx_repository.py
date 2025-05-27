@@ -8,10 +8,10 @@ from src.interfaces.logger import ILogger
 
 class ExcelRepository(repo.IDataAccessRepository):
     def __init__(self, file_path: str, logger: ILogger):
-        self.file_path = file_path
-        self._ensure_workbook()
         self.__logger = logger
         self.__logger.log_debug(f"Repository init successfully")
+        self.file_path = file_path
+        self._ensure_workbook()
 
 
     def _ensure_workbook(self):

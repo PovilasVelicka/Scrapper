@@ -6,14 +6,13 @@ from typing import Optional
 
 class SqlRepository(repo.IDataAccessRepository):
     def __init__(self, db_path: str, logger: ILogger):
-        self.conn = sqlite3.connect(db_path)
-        self._create_tables()
         self.__logger = logger
         self.__logger.log_debug(f"Repository init successfully")
+        self.conn = sqlite3.connect(db_path)
+        self._create_tables()
 
 
     def _create_tables(self):
-        self.__logger.log_debug(f"def:create_tables - tray to create tables")
         cursor = self.conn.cursor()
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS products (
@@ -77,12 +76,10 @@ class SqlRepository(repo.IDataAccessRepository):
 
     def insert(self, item: dict) -> dict:
         cursor = self.conn.cursor()
-        self.__logger.log_debug(f"def:insert - prepare item for update")
         cursor.execute("""
             INSERT INTO products (id, name, description, price)
             VALUES (?, ?, ?, ?)
         """, (item["id"], item["name"], item["description"], item["price"]))
-        self.__logger.log_debug(f"def:insert - prepare item details for update")
         for detail in item.get("details", []):
             for key, value in detail.items():
                 cursor.execute("""
