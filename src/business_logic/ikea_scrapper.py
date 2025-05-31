@@ -20,6 +20,7 @@ class IkeaScrapper(IWebScrapper):
         It uses a logger to track progress and errors.
         """
         parsed_url = urlparse(url)
+        self.__is_completed = False
         self.__logger = logger
         self.__base_url = f"{parsed_url.scheme}://{parsed_url.hostname}"
         self.__rel_path = parsed_url.path
@@ -44,11 +45,17 @@ class IkeaScrapper(IWebScrapper):
     def page_items(self) -> Generator[dict, None, None]:
         for item in self._get_all_items(self.__base_url + self.__rel_path):
             yield item
+        self.__is_completed = True
+
+
+    def is_completed(self) -> bool:
+        return self.__is_completed
 
 
     def clear_state(self):
         if os.path.exists(self.__state_file):
             os.remove(self.__state_file)
+        self.__is_completed = False
 
 
     def _save_state(self):

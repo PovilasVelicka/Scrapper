@@ -1,3 +1,4 @@
+from sys import exit
 from time import sleep
 from src.interfaces.logger import ILogger
 from src.interfaces.repository import IDataAccessRepository
@@ -28,8 +29,8 @@ def main():
         raise ValueError(msg)
 
     scrapper = IkeaScrapper(settings.scrape_url, Logger("IkeaScrapper", settings.log_level))
-    complete = False
-    while not complete:
+
+    while not scrapper.is_completed():
         try:
             for i in scrapper.page_items():
                 if repository.get_first_or_default(i):
@@ -38,10 +39,9 @@ def main():
                     repository.insert(i)
             logger.log_info(f"The page {settings.scrape_url} successfully scrapped into {settings.db_path}")
             scrapper.clear_state()
-            complete = True
         except KeyboardInterrupt:
             logger.log_error(f"Interrupted by user!")
-            complete = True
+            exit()
         except Exception as e:
             logger.log_error(f"Unexpected error: {e}")
             logger.log_info(f"Waiting 10 seconds")

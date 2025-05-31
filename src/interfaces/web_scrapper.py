@@ -20,3 +20,15 @@ class IWebScrapper(ABC):
         Implementations may delete a file, reset a database record, or clear in-memory data.
         """
         pass
+
+    @abstractmethod
+    def is_completed(self) -> bool:
+        """
+        Checks if the scraping process has completed.
+
+        Implementations may track whether all pages have been processed,
+        all items have been retrieved, or whether a stopping condition has been met.
+
+        :return: True if the scraping process is finished, False otherwise.
+        """
+        pass
