@@ -47,7 +47,7 @@ class IkeaScrapper(IWebScrapper):
             yield item
         self.__is_completed = True
 
-
+    @property
     def is_completed(self) -> bool:
         return self.__is_completed
 

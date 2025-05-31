@@ -30,7 +30,7 @@ def main():
 
     scrapper = IkeaScrapper(settings.scrape_url, Logger("IkeaScrapper", settings.log_level))
 
-    while not scrapper.is_completed():
+    while not scrapper.is_completed:
         try:
             for i in scrapper.page_items():
                 if repository.get_first_or_default(i):
