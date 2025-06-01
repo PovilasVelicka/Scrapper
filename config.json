@@ -8,5 +8,8 @@
   "Scrapping":{
     "Url": "https://www.ikea.lt/lt/products/virtuve/virtuves-sistema-metod",
     "Interval": 2
+  },
+  "MailService": {
+    "Recipients": "velicka.povilas@gmail.com"
   }
 }

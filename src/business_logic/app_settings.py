@@ -48,3 +48,7 @@ class AppSettings:
             return path
         raise KeyError("Json path not provided in settings. Please check appsettings.json file")
 
+
+    @property
+    def email_recipient(self) -> str:
+        return self.settings.get('MailService', {}).get('Recipients', '')

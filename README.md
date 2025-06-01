@@ -105,3 +105,32 @@ Logging behavior is controlled by the `LogLevel` setting in `config.json`. Examp
 ```
 
 Use "DEBUG", "INFO", "WARNING", or "ERROR" depending on how detailed you want the logs. If LogLevel is set to "DEBUG", logging will be done in the console. If set to a higher level, logs will be saved to a file in the logs directory, organized by the date of logging.
+
+## 📧 Optional: Email Notification on Completion
+
+If you want to send an email notification when the process finishes (e.g. with a report or summary), follow these steps:
+
+### 1. Add Gmail credentials to `.env`
+
+Create a `.env` file in the root of the project and add the following:
+```text
+GMAIL_USERNAME=your.email@gmail.com
+GMAIL_APP_PASSWORD=your_app_password_here
+```
+- Use a **Gmail App Password**, not your regular Gmail password.
+- You can generate an App Password in your [Google Account](https://myaccount.google.com/security) under **Security → App passwords** (2FA must be enabled).
+- Add `.env` to `.gitignore` to prevent it from being committed to version control.
+
+### 2. Define recipients in `config.json`
+
+Add a `MailService` block to your `config.json` file. You can provide multiple email addresses separated by ; or , for example:
+
+```json
+{
+  "MailService": {
+    "Recipients": "user1@example.com; user2@example.com"
+  }
+}
+```
+### 3. Automatic email on process completion
+If both .env and MailService.Recipients are configured, the system will send an email with the result, report, or log file when the process completes.
